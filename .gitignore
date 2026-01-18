@@ -1,6 +1,40 @@
-venv/
+# ===== Python =====
 __pycache__/
 *.pyc
-logs/
-models/
+*.pyo
+*.pyd
+*.egg-info/
+.env
+.venv
+venv/
+ENV/
+
+# ===== Jupyter =====
+.ipynb_checkpoints/
+
+# ===== Data / Models =====
 data/
+*.csv
+*.pkl
+*.joblib
+*.h5
+*.keras
+models/
+
+# ===== Logs =====
+logs/
+*.log
+
+# ===== OS / Editor =====
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ===== DVC =====
+.dvc/cache/
+.dvc/tmp/
+
+# ===== Docker =====
+*.pid
+
