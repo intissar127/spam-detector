@@ -12,14 +12,20 @@ ENV/
 # ===== Jupyter =====
 .ipynb_checkpoints/
 
-# ===== Data / Models =====
-data/
-*.csv
+# ===== Data =====
+data/*
+!data/*.dvc
+!data/.gitkeep
+
+# ===== Models =====
+# Ignore model binaries
+models/*
 *.pkl
 *.joblib
 *.h5
 *.keras
-models/
+# Keep folder structure
+!models/.gitkeep
 
 # ===== Logs =====
 logs/
@@ -34,7 +40,7 @@ Thumbs.db
 # ===== DVC =====
 .dvc/cache/
 .dvc/tmp/
+.dvc/.gitignore
 
 # ===== Docker =====
 *.pid
-
