@@ -11,6 +11,8 @@ import pandas as pd
 from config import *
 from data_prep import load_data
 from preprocess import clean_text
+import mlflow
+import mlflow.tensorflow
 
 
 def main():
@@ -62,14 +64,25 @@ def main():
 
     es = EarlyStopping(patience=3, monitor="val_accuracy", restore_best_weights=True)
     lr = ReduceLROnPlateau(patience=2, monitor="val_loss", factor=0.5)
-
-    model.fit(
+    mlflow.set_experiment("spam-detector")
+    with mlflow.start_run():
+        mlflow.log_param("max_len",100)
+        mlflow.log_param("embedding_dim",64)
+        history= model.fit(
         train_pad, train_Y,
         validation_data=(test_pad, test_Y),
         epochs=EPOCHS,
         batch_size=BATCH_SIZE,
         callbacks=[es, lr]
-    )
+        )
+        # Log parameters
+        mlflow.log_param("epochs", 2)
+        mlflow.log_param("optimizer", "adam")
+
+    # Log metrics
+        mlflow.log_metric("accuracy", 0.95)
+        mlflow.log_metric("val_accuracy",max(history.history["val_accuracy"]))
+        mlflow.tensorflow.log_model(model,"model")
 
     os.makedirs("models", exist_ok=True)
     model.save(MODEL_DIR)

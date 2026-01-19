@@ -7,7 +7,7 @@ import tensorflow as tf
 import pickle
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from training.config import MAX_LEN
-
+import logging 
 app = FastAPI()
 
 model = tf.keras.models.load_model("models/spam_lstm_model.keras")
@@ -20,6 +20,7 @@ class EmailRequest(BaseModel):
 
 @app.post("/predict")
 def predict(request: EmailRequest):
+    logging.info(f"Prediction request:{request.email}")
     text = request.email
     seq = tokenizer.texts_to_sequences([text])
     pad = pad_sequences(seq, maxlen=MAX_LEN, padding="post", truncating="post")
