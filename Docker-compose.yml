@@ -1,0 +1,53 @@
+version: "3.9"
+#builds and runs all services defined in this together
+services:
+  api:
+  #Ça appelle automatiquement le Dockerfile
+    build: .
+    container_name: spam-detector-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./logs:/app/logs   #persist logs outside container
+      - ./ models:/app/models #use local trained models
+      - ./data:/app/data # retrain inside container
+    environment:
+    - ENV=production
+    restart: unless-stopped
+    #Prometheus collecte et stocke les métriques de ton API en temps réel pour que Grafana puisse les afficher.
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - api
+#Grafana sert à visualiser ce que fait ton API en production (trafic, erreurs, latence) dans des graphiques en temps réel.
+
+# Exemples de ce que tu peux voir :
+
+# Combien de requêtes arrivent ➝ api_requests_total
+
+# Temps de réponse ➝ latence
+
+# Erreurs ➝ 500, 400, etc.
+#Grafana = interface visuelle pour monitorer ton API
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+  ui:
+    build: .
+    command: streamlit run ui.py --server.port 8501 --server.address 0.0.0.0
+    ports:
+    - "8501:8501"
+    depends_on:
+    - api
+
+
+
+
+

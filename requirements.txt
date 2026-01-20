@@ -1,23 +1,26 @@
 # Data processing
-pandas==2.1.0
-numpy==1.26.0
-matplotlib==3.8.0
-seaborn==0.12.3
+pandas
+numpy
+matplotlib
+seaborn
 
 # NLP / Text processing
-nltk==3.9.0
-wordcloud==1.8.2
+nltk
+wordcloud
 
 # Machine learning
-scikit-learn==1.3.2
-tensorflow==2.14.0
-keras==2.14.0
+scikit-learn
+tensorflow
+keras
 
 # API
-fastapi==0.111.0
-uvicorn[standard]==0.23.1
-pydantic==2.3.0
-requests==2.34.0
+fastapi
+uvicorn[standard]
+pydantic
+requests
 
 # Utilities
-joblib==1.3.2
+joblib
+prometheus-client
+streamlit
+requests

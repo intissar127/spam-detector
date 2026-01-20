@@ -14,7 +14,8 @@ from preprocess import clean_text
 import mlflow
 import mlflow.tensorflow
 
-
+# Monitoring : Observer en temps réel les performances du modèle en production (erreurs, latence, métriques).
+# Set experiment : Définir et suivre des essais d’entraînement de modèles (hyperparamètres, métriques, versions) avant le déploiement.
 def main():
     # Load
     df = load_data(DATA_PATH)
